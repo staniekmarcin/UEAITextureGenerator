@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "UE AI Texture Generator",
+	"Description": "Generate textures using OpenAI API",
+	"Category": "Texture",
+	"CreatedBy": "Marcin Staniek",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "UEAITextureGenerator",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
