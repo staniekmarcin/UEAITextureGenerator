@@ -9,6 +9,7 @@
 #include "ISettingsModule.h"
 #include "ToolMenus.h"
 #include "UEAITextureGeneratorSettings.h"
+#include "UEAITextureGeneratorWindow.h"
 
 #define LOCTEXT_NAMESPACE "FUEAITextureGeneratorModule"
 
@@ -74,7 +75,24 @@ void FUEAITextureGeneratorModule::UnregisterSettings()
 
 void FUEAITextureGeneratorModule::PluginButtonClicked()
 {
+    CreateUI();
+}
+
+void FUEAITextureGeneratorModule::CreateUI()
+{
+    // Create window and add it to the slate application
+    TSharedRef<SWindow> Window = SNew(SUEAITextureGeneratorWindow)
+      .Title(LOCTEXT("WindowTitle", "AI Texture Generator"))
+          .SizingRule(ESizingRule::UserSized)
+          .ClientSize(FVector2D(1200, 600))
+          .SupportsMaximize(false)
+          .SupportsMinimize(true)
+          .IsInitiallyMaximized(false)
+          .HasCloseButton(true)
+          .FocusWhenFirstShown(true)
+          ;
     
+    FSlateApplication::Get().AddWindow(Window);
 }
 
 void FUEAITextureGeneratorModule::RegisterMenus()
