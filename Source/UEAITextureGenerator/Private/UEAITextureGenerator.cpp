@@ -7,8 +7,8 @@
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Text/STextBlock.h"
 #include "ISettingsModule.h"
-#include "ISettingsSection.h"
 #include "ToolMenus.h"
+#include "UEAITextureGeneratorSettings.h"
 
 #define LOCTEXT_NAMESPACE "FUEAITextureGeneratorModule"
 
@@ -18,6 +18,9 @@ void FUEAITextureGeneratorModule::StartupModule()
     FUEAITextureGeneratorStyle::Initialize();
     FUEAITextureGeneratorStyle::ReloadTextures();
 
+    // Register settings
+    RegisterSettings();
+    
     // Initialize commands
     FUEAITextureGeneratorCommands::Register();
     
@@ -37,15 +40,41 @@ void FUEAITextureGeneratorModule::ShutdownModule()
     // Unregister menus
     UToolMenus::UnRegisterStartupCallback(this);
     UToolMenus::UnregisterOwner(this);
+
+    // Unregister settings
+    UnregisterSettings();
     
     // Unregister commands and style
     FUEAITextureGeneratorStyle::Shutdown();
     FUEAITextureGeneratorCommands::Unregister();
 }
 
+void FUEAITextureGeneratorModule::RegisterSettings()
+{
+    if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
+    {
+        SettingsModule->RegisterSettings(
+            "Project", 
+            "Plugins", 
+            "UEAI Texture Generator",
+            LOCTEXT("UEAISettingsName", "UEAI Texture Generator"),
+            LOCTEXT("UEAISettingsDescription", "Configure the OpenAI API key and other options."),
+            GetMutableDefault<UUEAITextureGeneratorSettings>()
+        );
+    }
+}
+
+void FUEAITextureGeneratorModule::UnregisterSettings()
+{
+    if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
+    {
+        SettingsModule->UnregisterSettings("Project", "Plugins", "UEAI Texture Generator");
+    }
+}
+
 void FUEAITextureGeneratorModule::PluginButtonClicked()
 {
-
+    
 }
 
 void FUEAITextureGeneratorModule::RegisterMenus()
